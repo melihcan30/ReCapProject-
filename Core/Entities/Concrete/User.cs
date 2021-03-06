@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entities.Abstract;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -14,6 +15,6 @@ namespace Core.Entities.Concrete
         public byte[] PasswordHash { get; set; }
         public bool Status { get; set; }
 
-        //22:05 Dersteyiz
+        
     }
 }

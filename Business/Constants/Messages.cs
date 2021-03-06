@@ -47,8 +47,7 @@ namespace Business.Constants
         public static string AddCarImageMessage = "Araç resmi başarıyla eklendi";
         public static string EditCarImageMessage = "Araç resmi başarıyla güncellendi";
         public static string DeleteCarImageMessage = "Araç resmi başarıyla silindi";
-        public static string AboveImageAddingLimit = "Araç maksimum resim sayısına ulaştı. Resim ekleyemezsiniz";
-        internal static List<CarImage> GetErrorCarMessage;
+        public static string AboveImageAddingLimit = "Araç maksimum resim sayısına ulaştı. Resim ekleyemezsiniz"; 
 
         public static string AuthorizationDenied = "Yetkiniz yok.";
     }
