@@ -1,4 +1,5 @@
-﻿using Core.Utilities.Results.Abstract;
+﻿using Core.Entities.Concrete;
+using Core.Utilities.Results.Abstract;
 using Core.Utilities.Security.JWT;
 using Entities.Concrete;
 using Entities.DTOs;

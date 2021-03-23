@@ -14,12 +14,12 @@ namespace Business.BusinessAspects.Autofac
     //JWT
     public class SecuredOperation : MethodInterception
     {
-        private string[] _roles;
-        private IHttpContextAccessor _httpContextAccessor;
+        private readonly string[] _roles;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public SecuredOperation(string roles)
         {
-            _roles = roles.Split(',');
+            _roles = roles.Split(',');//Array Çevirir
             _httpContextAccessor = ServiceTool.ServiceProvider.GetService<IHttpContextAccessor>();
 
         }
