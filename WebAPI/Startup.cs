@@ -1,13 +1,7 @@
 using Business.Abstract;
 using Business.Concrete;
-using Core.DependencyResolvers;
-using Core.Extensions;
-using Core.Utilities.IoC;
-using Core.Utilities.Security.Encryption;
-using Core.Utilities.Security.JWT;
 using DataAccess.Abstract;
-
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using DataAccess.Concrete.EntityFramework;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -16,11 +10,17 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.DependencyResolvers;
+using Core.Extensions;
+using Core.Utilities.IoC;
+using Core.Utilities.Security.Encryption;
+using Core.Utilities.Security.JWT;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace WebAPI
 {
