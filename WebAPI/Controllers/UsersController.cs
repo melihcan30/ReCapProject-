@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Core.Entities.Concrete;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,17 +14,28 @@ namespace WebAPI.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        IUserService _userService;
+        private readonly IUserService _userService;
 
         public UsersController(IUserService userService)
         {
             _userService = userService;
         }
 
-        [HttpGet("getall")]
+        [HttpGet]
         public IActionResult GetAll()
         {
             var result = _userService.GetAll();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("id")]
+        public IActionResult GetById(int id)
+        {
+            var result = _userService.GetById(id);
             if (result.Success)
             {
                 return Ok(result);

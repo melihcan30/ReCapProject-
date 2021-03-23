@@ -10,7 +10,7 @@ namespace Business.ValidationRules.FluentValidation
     {
         public BrandValidator()
         {
-            RuleFor(x => x.Name).MinimumLength(3).WithMessage("Marka adı en fazla 3 karakterden oluşabilir!");
+            RuleFor(b => b.Name).MinimumLength(10);
         }
     }
 }
