@@ -12,7 +12,7 @@ namespace WebAPI.Controllers
     [ApiController]
     public class CarsController : ControllerBase
     {
-        ICarService _carService;
+        private readonly ICarService _carService;
 
         public CarsController(ICarService carService)
         {
@@ -45,9 +45,29 @@ namespace WebAPI.Controllers
         [HttpGet("details")]
         public IActionResult GetCarDetails()
         {
-            //Thread.Sleep(1000);
-
             var result = _carService.GetCarDetails();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("totalcars")]
+        public IActionResult GetTotalCars()
+        {
+            var result = _carService.TotalCars();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("lastrentedcar")]
+        public IActionResult GetLastRentedCar()
+        {
+            var result = _carService.LastRentedCar();
             if (result.Success)
             {
                 return Ok(result);
@@ -131,30 +151,5 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
-
-
-
-        //[HttpGet("getbrandandcolor")]
-        //public IActionResult GetCarBrandandColor(int brandId,int colorId)
-        //{
-        //    //Thread.Sleep(5000);
-        //    var result = _carService.GetCarBrandandColor(brandId,colorId);
-        //    if (result.Success)
-        //    {
-        //        return Ok(result);
-        //    }
-        //    return BadRequest(result);
-        //}
-
-        //[HttpGet("detailsbymodelyear")]
-        //public IActionResult GetCarByModelYear(int min, int max)
-        //{
-        //    var result = _carService.GetCarDetails(m => m.ModelYear >= min && m.ModelYear <= max);
-        //    if (result.Success)
-        //    {
-        //        return Ok(result);
-        //    }
-        //    return BadRequest(result);
-        //}
     }
 }

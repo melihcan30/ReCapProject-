@@ -12,6 +12,7 @@ namespace DataAccess.Concete.Entity_Framework
 {
     public class EfCarDal : EfEntityRepositoryBase<Car, CarProjectContext>, ICarDal
     {
+        private readonly Random _random = new Random();
         public List<CarDetailDto> GetCarDetails(Expression<Func<Car, bool>> filter = null)
         {
             using (CarProjectContext context = new CarProjectContext())
@@ -24,12 +25,14 @@ namespace DataAccess.Concete.Entity_Framework
                               {
                                   BrandId = d.BrandId,
                                   BrandName = d.Name,
+                                  ModelName = p.Name,
                                   ColorId = c.ColorId,
                                   ColorName = c.Name,
                                   DailyPrice = p.DailyPrice,
                                   Description = p.Description,
                                   ModelYear = p.ModelYear,
                                   Id = p.Id,
+                                  FindeksScore = _random.Next(1, 1900),
                                   Date = im.Date,
                                   ImagePath = im.ImagePath,
                                   ImageId = im.Id
@@ -42,6 +45,7 @@ namespace DataAccess.Concete.Entity_Framework
         {
             using (CarProjectContext context = new CarProjectContext())
             {
+
                 var result = from p in context.Cars
                              join c in context.Colors on p.ColorId equals c.ColorId
                              join d in context.Brands on p.BrandId equals d.BrandId
@@ -52,11 +56,13 @@ namespace DataAccess.Concete.Entity_Framework
                                  BrandId = d.BrandId,
                                  BrandName = d.Name,
                                  ColorId = c.ColorId,
+                                 ModelName = p.Name,
                                  ColorName = c.Name,
                                  DailyPrice = p.DailyPrice,
                                  Description = p.Description,
                                  ModelYear = p.ModelYear,
                                  Id = p.Id,
+                                 FindeksScore = _random.Next(1, 1900),
                                  Date = im.Date,
                                  ImagePath = im.ImagePath,
                                  ImageId = im.Id
@@ -79,6 +85,7 @@ namespace DataAccess.Concete.Entity_Framework
                                  Id = car.Id,
                                  BrandName = brand.Name,
                                  ColorName = color.Name,
+                                 ModelName = car.Name,
                                  DailyPrice = car.DailyPrice,
                                  ModelYear = car.ModelYear,
                                  ImagePath = (from carImage in context.CarImages
@@ -86,6 +93,48 @@ namespace DataAccess.Concete.Entity_Framework
                                               select carImage).FirstOrDefault().ImagePath
                              };
                 return result.ToList();
+            }
+        }
+
+        public int TotalCars()
+        {
+            using (CarProjectContext context = new CarProjectContext())
+            {
+                return context.Cars.Count();
+            }
+        }
+
+        public CarDetailDto LastRentedCar()
+        {
+            //En Son Kiralanan Araba
+            using (CarProjectContext context = new CarProjectContext())
+            {
+                var result =
+                    (from r in context.Rentals
+                     join c in context.Cars on r.CarId equals c.Id
+                     join cu in context.Customers on r.CustomerId equals cu.Id
+                     join b in context.Brands on c.BrandId equals b.BrandId
+                     join u in context.Users on cu.UserId equals u.Id
+                     join co in context.Colors on c.ColorId equals co.ColorId
+                     join im in context.CarImages on c.Id equals im.CarId
+                     orderby r.Id descending
+                     select new CarDetailDto
+                     {
+                         BrandId = b.BrandId,
+                         BrandName = b.Name,
+                         ColorId = co.ColorId,
+                         ColorName = co.Name,
+                         ModelName = c.Name,
+                         DailyPrice = c.DailyPrice,
+                         Description = c.Description,
+                         ModelYear = c.ModelYear,
+                         Id = c.Id,
+                         FindeksScore = _random.Next(1, 1900),
+                         Date = im.Date,
+                         ImagePath = im.ImagePath,
+                         ImageId = im.Id
+                     }).FirstOrDefault();
+                return result;
             }
         }
 

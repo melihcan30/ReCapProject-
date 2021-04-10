@@ -12,6 +12,7 @@ using System.Linq;
 using Core.Aspects.Autofac.Validation;
 using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Performance;
+using Business.BusinessAspects.Autofac;
 
 namespace Business.Concrete
 {
@@ -26,10 +27,10 @@ namespace Business.Concrete
 
         [ValidationAspect(typeof(BrandValidator))]
         [CacheRemoveAspect("IBrandService.Get")]
-        // [SecuredOperation("Brand.Add")]
+        [SecuredOperation("Brand.Add")]
         public IResult Add(Brand brand)
         {
-            if (brand.Name.Length <= 10)
+            if (brand.Name.Length <= 2)
             {
                 return new ErrorResult(Messages.BrandNameInvalid);
             }
@@ -37,9 +38,18 @@ namespace Business.Concrete
             return new SuccessResult(Messages.BrandAdded);
 
         }
-        //[SecuredOperation("Brand.Delete")]
+        [SecuredOperation("Brand.Delete")]
         public IResult Delete(Brand brand)
         {
+            if (brand.Name == null)
+            {
+                var newBrand = _brandDal.Get(p => p.BrandId == brand.BrandId);
+                _brandDal.Delete(new Brand
+                {
+                    BrandId = brand.BrandId,
+                    Name = newBrand.Name
+                });
+            }
             _brandDal.Delete(brand);
             return new SuccessResult(Messages.BrandDeleted);
         }
@@ -65,7 +75,7 @@ namespace Business.Concrete
             return new SuccessDataResult<Brand>(_brandDal.Get(b => b.BrandId == id));
         }
 
-        //[SecuredOperation("Brand.Update")]
+        [SecuredOperation("Brand.Update")]
         public IResult Update(Brand brand)
         {
             _brandDal.Update(brand);
