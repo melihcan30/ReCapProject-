@@ -46,7 +46,7 @@ namespace Business.Concrete
 
         public IDataResult<List<CarDetailDto>> GetByCarId(int carId)
         {
-            var result = _carService.GetCarDetails(ci => ci.Id == carId);
+            var result = _carService.GetCarDetails(ci => ci.CarId == carId);
             if (result.Data.Any()) return new SuccessDataResult<List<CarDetailDto>>(result.Data);
             return new SuccessDataResult<List<CarDetailDto>>(new List<CarDetailDto>
             {

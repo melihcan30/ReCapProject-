@@ -8,6 +8,7 @@ using Core.Aspects.Autofac.Validation;
 using Core.Entities.Concrete;
 using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
+using Core.Utilities.Security.Hashing;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -33,6 +34,24 @@ namespace Business.Concrete
             return new SuccessResult(Messages.UserAdded);
         }
 
+        public IResult ProfileUpdate(User user, string password)
+        {
+            byte[] passwordHash, passwordSalt;
+            HashingHelper.CreatePasswordHash(password, out passwordHash, out passwordSalt);
+            var updatedUser = new User
+            {
+                Id = user.Id,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt,
+                Status = user.Status
+            };
+            _userDal.Update(updatedUser);
+            return new SuccessDataResult<User>(Messages.UserUpdated);
+        }
+
         [SecuredOperation("User.Delete")]
         public IResult Delete(User user)
         {
@@ -40,7 +59,6 @@ namespace Business.Concrete
             return new SuccessResult(Messages.UserDeleted);
         }
 
-        [CacheAspect]
         public IDataResult<List<User>> GetAll()
         {
             if (DateTime.Now.Hour == 00)
@@ -50,7 +68,6 @@ namespace Business.Concrete
             return new SuccessDataResult<List<User>>(_userDal.GetAll(), Messages.UserListed);
         }
 
-        [CacheAspect]
         [PerformanceAspect(5)]
         public IDataResult<User> GetById(int id)
         {
@@ -61,19 +78,29 @@ namespace Business.Concrete
             return new SuccessDataResult<User>(_userDal.Get(b => b.Id == id));
         }
 
+        public IDataResult<Findeks> GetUserFindeks(Findeks findeks)
+        {
+            Random rnd = new Random();
+            var userFindeks = new Findeks
+            {
+                Tc = findeks.Tc,
+                DateYear = findeks.DateYear,
+                UserFindeks = rnd.Next(0, 1900)
+            };
+            return new SuccessDataResult<Findeks>(userFindeks);
+        }
+
         public IResult Update(User user)
         {
             _userDal.Update(user);
             return new SuccessResult(Messages.UserUpdated);
         }
 
-        [CacheAspect]
         public IDataResult<List<OperationClaim>> GetClaims(User user)
         {
             return new SuccessDataResult<List<OperationClaim>>(_userDal.GetClaims(user));
         }
 
-        [CacheAspect]
         [PerformanceAspect(5)]
         public IDataResult<User> GetByMail(string email)
         {

@@ -14,11 +14,11 @@ namespace DataAccess.Concrete.InMemory
         public InMemoryCarDal()
         {
             _cars = new List<Car> {
-                new Car {Id=1,BrandId=1,ColorId=3,ModelYear=2015,DailyPrice=450, Description="güzel araba"},
-                new Car {Id=2,BrandId=2,ColorId=4,ModelYear=2010,DailyPrice=500, Description="iyi araba"},
-                new Car {Id=3,BrandId=2,ColorId=1,ModelYear=2020,DailyPrice=750, Description="çok güzel araba"},
-                new Car {Id=4,BrandId=3,ColorId=1,ModelYear=2008,DailyPrice=150, Description="idare eder"},
-                new Car {Id=5,BrandId=1,ColorId=2,ModelYear=2009,DailyPrice=125, Description="normal"}
+                new Car {CarId=1,BrandId=1,ColorId=3,ModelYear=2015,DailyPrice=450, Description="güzel araba"},
+                new Car {CarId=2,BrandId=2,ColorId=4,ModelYear=2010,DailyPrice=500, Description="iyi araba"},
+                new Car {CarId=3,BrandId=2,ColorId=1,ModelYear=2020,DailyPrice=750, Description="çok güzel araba"},
+                new Car {CarId=4,BrandId=3,ColorId=1,ModelYear=2008,DailyPrice=150, Description="idare eder"},
+                new Car {CarId=5,BrandId=1,ColorId=2,ModelYear=2009,DailyPrice=125, Description="normal"}
             };
         }
 
@@ -53,6 +53,31 @@ namespace DataAccess.Concrete.InMemory
         }
 
         public List<CarDetailDto> GetCarDetailsByBrandAndColor(int brandId, int colorId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public CarDetailDto LastAddedCar()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int TotalCars()
+        {
+            throw new NotImplementedException();
+        }
+
+        public CarDetailDto LastRentedCar()
+        {
+            throw new NotImplementedException();
+        }
+
+        public CarDetailDto LeastRentedCar()
+        {
+            throw new NotImplementedException();
+        }
+
+        public CarDetailDto MostRentedCar()
         {
             throw new NotImplementedException();
         }

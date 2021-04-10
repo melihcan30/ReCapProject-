@@ -33,10 +33,10 @@ namespace Business.Concrete
         public IResult Add(Car car)
         {
             _carDal.Add(car);
-            var query = _carDal.Get(p => p.Id == car.Id);
+            var query = _carDal.Get(p => p.CarId == car.CarId);
             var image = new CarImage
             {
-                CarId = query.Id,
+                CarId = query.CarId,
                 Date = DateTime.Now,
                 ImagePath = "/Images/default.jpg"
             };
@@ -67,7 +67,7 @@ namespace Business.Concrete
                 return new ErrorDataResult<Car>(Messages.MaintenanceTime);
             }
 
-            return new SuccessDataResult<Car>(_carDal.Get(c => c.Id == carId));
+            return new SuccessDataResult<Car>(_carDal.Get(c => c.CarId == carId));
         }
 
         public IDataResult<List<CarDetailDto>> GetCarDetails(Expression<Func<Car, bool>> filter = null)

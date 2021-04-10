@@ -28,7 +28,7 @@ namespace Business.Concrete
         //[SecuredOperation("Color.Add")]
         public IResult Add(Color color)
         {
-            if (color.Name.Length <= 10)
+            if (color.ColorName.Length <= 10)
             {
                 return new ErrorResult(Messages.ColorNameInvalid);
             }

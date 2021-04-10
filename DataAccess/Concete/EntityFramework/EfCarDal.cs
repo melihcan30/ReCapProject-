@@ -20,18 +20,18 @@ namespace DataAccess.Concete.Entity_Framework
                 var result = (from p in filter == null ? context.Cars : context.Cars.Where(filter)
                               join c in context.Colors on p.ColorId equals c.ColorId
                               join d in context.Brands on p.BrandId equals d.BrandId
-                              join im in context.CarImages on p.Id equals im.CarId
+                              join im in context.CarImages on p.CarId equals im.CarId
                               select new CarDetailDto
                               {
                                   BrandId = d.BrandId,
-                                  BrandName = d.Name,
-                                  ModelName = p.Name,
+                                  BrandName = d.BrandName,
+                                  ModelName = p.ModelName,
                                   ColorId = c.ColorId,
-                                  ColorName = c.Name,
+                                  ColorName = c.ColorName,
                                   DailyPrice = p.DailyPrice,
                                   Description = p.Description,
                                   ModelYear = p.ModelYear,
-                                  Id = p.Id,
+                                  Id = p.CarId,
                                   FindeksScore = _random.Next(1, 1900),
                                   Date = im.Date,
                                   ImagePath = im.ImagePath,
@@ -49,19 +49,19 @@ namespace DataAccess.Concete.Entity_Framework
                 var result = from p in context.Cars
                              join c in context.Colors on p.ColorId equals c.ColorId
                              join d in context.Brands on p.BrandId equals d.BrandId
-                             join im in context.CarImages on p.Id equals im.CarId
-                             where p.Id == carId
+                             join im in context.CarImages on p.CarId equals im.CarId
+                             where p.CarId == carId
                              select new CarDetailDto
                              {
                                  BrandId = d.BrandId,
-                                 BrandName = d.Name,
+                                 BrandName = d.BrandName,
                                  ColorId = c.ColorId,
-                                 ModelName = p.Name,
-                                 ColorName = c.Name,
+                                 ModelName = p.ModelName,
+                                 ColorName = c.ColorName,
                                  DailyPrice = p.DailyPrice,
                                  Description = p.Description,
                                  ModelYear = p.ModelYear,
-                                 Id = p.Id,
+                                 Id = p.CarId,
                                  FindeksScore = _random.Next(1, 1900),
                                  Date = im.Date,
                                  ImagePath = im.ImagePath,
@@ -82,14 +82,14 @@ namespace DataAccess.Concete.Entity_Framework
 
                              select new CarDetailDto
                              {
-                                 Id = car.Id,
-                                 BrandName = brand.Name,
-                                 ColorName = color.Name,
-                                 ModelName = car.Name,
+                                 Id = car.CarId,
+                                 BrandName = brand.BrandName,
+                                 ColorName = color.ColorName,
+                                 ModelName = car.ModelName,
                                  DailyPrice = car.DailyPrice,
                                  ModelYear = car.ModelYear,
                                  ImagePath = (from carImage in context.CarImages
-                                              where (carImage.CarId == car.Id)
+                                              where (carImage.CarId == car.CarId)
                                               select carImage).FirstOrDefault().ImagePath
                              };
                 return result.ToList();
@@ -111,24 +111,24 @@ namespace DataAccess.Concete.Entity_Framework
             {
                 var result =
                     (from r in context.Rentals
-                     join c in context.Cars on r.CarId equals c.Id
-                     join cu in context.Customers on r.CustomerId equals cu.Id
+                     join c in context.Cars on r.CarId equals c.CarId
+                     join cu in context.Customers on r.CustomerId equals cu.CustomerId
                      join b in context.Brands on c.BrandId equals b.BrandId
                      join u in context.Users on cu.UserId equals u.Id
                      join co in context.Colors on c.ColorId equals co.ColorId
-                     join im in context.CarImages on c.Id equals im.CarId
+                     join im in context.CarImages on c.CarId equals im.CarId
                      orderby r.Id descending
                      select new CarDetailDto
                      {
                          BrandId = b.BrandId,
-                         BrandName = b.Name,
+                         BrandName = b.BrandName,
                          ColorId = co.ColorId,
-                         ColorName = co.Name,
-                         ModelName = c.Name,
+                         ColorName = co.ColorName,
+                         ModelName = c.ModelName,
                          DailyPrice = c.DailyPrice,
                          Description = c.Description,
                          ModelYear = c.ModelYear,
-                         Id = c.Id,
+                         Id = c.CarId,
                          FindeksScore = _random.Next(1, 1900),
                          Date = im.Date,
                          ImagePath = im.ImagePath,

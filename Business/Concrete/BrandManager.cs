@@ -30,7 +30,7 @@ namespace Business.Concrete
         [SecuredOperation("Brand.Add")]
         public IResult Add(Brand brand)
         {
-            if (brand.Name.Length <= 2)
+            if (brand.BrandName.Length <= 2)
             {
                 return new ErrorResult(Messages.BrandNameInvalid);
             }
@@ -41,13 +41,13 @@ namespace Business.Concrete
         [SecuredOperation("Brand.Delete")]
         public IResult Delete(Brand brand)
         {
-            if (brand.Name == null)
+            if (brand.BrandName == null)
             {
                 var newBrand = _brandDal.Get(p => p.BrandId == brand.BrandId);
                 _brandDal.Delete(new Brand
                 {
                     BrandId = brand.BrandId,
-                    Name = newBrand.Name
+                    BrandName = newBrand.BrandName
                 });
             }
             _brandDal.Delete(brand);

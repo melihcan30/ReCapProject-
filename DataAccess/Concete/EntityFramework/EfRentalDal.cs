@@ -18,15 +18,15 @@ namespace DataAccess.Concete.Entity_Framework
             {
                 var result =
                     from r in context.Rentals.Where(c => c.CarId == id)
-                    join c in context.Cars on r.CarId equals c.Id
-                    join cu in context.Customers on r.CustomerId equals cu.Id
+                    join c in context.Cars on r.CarId equals c.CarId
+                    join cu in context.Customers on r.CustomerId equals cu.CustomerId
                     join b in context.Brands on c.BrandId equals b.BrandId
                     join u in context.Users on cu.UserId equals u.Id
                     select new RentalDetailDto
                     {
                         Id = r.Id,
-                        CarId = c.Id,
-                        BrandName = b.Name,
+                        CarId = c.CarId,
+                        BrandName = b.BrandName,
                         CustomerName = cu.CompanyName,
                         UserName = $"{u.FirstName} {u.LastName}",
                         RentDate = r.RentDate,
@@ -42,15 +42,15 @@ namespace DataAccess.Concete.Entity_Framework
             {
                 var result =
                     from r in context.Rentals
-                    join c in context.Cars on r.CarId equals c.Id
-                    join cu in context.Customers on r.CustomerId equals cu.Id
+                    join c in context.Cars on r.CarId equals c.CarId
+                    join cu in context.Customers on r.CustomerId equals cu.CustomerId
                     join b in context.Brands on c.BrandId equals b.BrandId
                     join u in context.Users on cu.UserId equals u.Id
                     select new RentalDetailDto
                     {
                         Id = r.Id,
-                        CarId = c.Id,
-                        BrandName = b.Name,
+                        CarId = c.CarId,
+                        BrandName = b.BrandName,
                         CustomerName = cu.CompanyName,
                         UserName = $"{u.FirstName} {u.LastName}",
                         RentDate = r.RentDate,
